@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Receber o SELETOR calendar do atributo id
   var calendarEl = document.getElementById("calendar");
 
+  //Receber o seletor da janela modal
+  const visualizarModal = new bootstrap.Modal(
+    document.getElementById("visualizarModal")
+  );
+
   // Instanciar FullCalendar.Calendar e atribuir a variável calendar
   var calendar = new FullCalendar.Calendar(calendarEl, {
     //Incluindo bootstra 5
@@ -41,11 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Identificar o click do usuario sobre o evento
     eventClick: function (info) {
-      //Receber o seletor da janela modal
-      const visualizarModal = new bootstrap.Modal(
-        document.getElementById("visualizarModal")
-      );
-
       //Enviar para a modal os dados do evento
       document.getElementById("visualizarId").innerText = info.event.id;
       document.getElementById("visualizarTitle").innerText = info.event.title;
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     select: function (info) {
       console.log(info.start);
       //Receber o seletor da janela modal
-      const cadastrarModal = new bootstrap.Modal(
+      let cadastrarModal = new bootstrap.Modal(
         document.getElementById("cadastrarModal")
       );
 
@@ -105,11 +105,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let formCadEvento = document.getElementById("formCadEvento");
   let msg = document.getElementById("msg");
+  let msgCadEvento = document.getElementById("msgCadEvento")
+  let btnCadEvento = document.getElementById("btnCadEvento");
 
   if (formCadEvento) {
     formCadEvento.addEventListener("submit", async (e) => {
       //Evita atualizar a pagina
       e.preventDefault();
+
+      btnCadEvento.value = "Salvando...";
 
       //Receber os dados do formulario
       const dadosForm = new FormData(formCadEvento);
@@ -125,16 +129,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
       //Falha ao cadastrar
       if (!resposta["status"]) {
-        document.getElementById(
-          "msgCadEvento"
-        ).innerHTML = `<div class="alert alert-danger" role="alert">
+        msgCadEvento.innerHTML = `<div class="alert alert-danger" role="alert">
          ${resposta["msg"]}
        </div>`;
       } else {
         msg.innerHTML = `<div class="alert alert-success" role="alert">
          ${resposta["msg"]}
        </div>`;
+
+       msgCadEvento.innerHTML = "";
+
+        formCadEvento.reset();
+
+        const novoEvento = {
+          id: resposta["id"],
+          title: resposta["title"],
+          color: resposta["color"],
+          start: resposta["start"],
+          end: resposta["end"],
+        };
+
+        calendar.addEvent(novoEvento);
+        removerMsg();
+      //Da uma olhada nisso
+        document.getElementById("cadastrarModal").setAttribute("style","display: none;");
+      
       }
+
+      btnCadEvento.value = "Cadastrar";
     });
+  }
+
+
+  function removerMsg(){
+    setTimeout(() => {
+      document.getElementById("msg").innerHTML = ""
+    }, 3000);
   }
 });

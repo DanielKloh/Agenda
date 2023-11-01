@@ -18,8 +18,6 @@
     <div id='calendar' class="container mt-5 mb-5"></div>
 
 
-
-
     <!-- Modal visualizar -->
     <div class="modal fade" id="visualizarModal" tabindex="-1" aria-labelledby="visualizarModalLabel"
         aria-hidden="true">
@@ -53,7 +51,9 @@
     </div>
 
     <!-- Modal Cadastrar -->
-    <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
+
+
+    <div  class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -95,12 +95,12 @@
                             </div>
                         </div>
 
-                        <button type="submit" name="btnCadEvento" class="btn btn-success" id="btnCadEvento">Inserir</button>
+                        <button type="submit" name="btnCadEvento" class="btn btn-success" id="btnCadEvento">Cadastrar</button>
                     </form>
                 </div>
 
-            </div>
         </div>
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
