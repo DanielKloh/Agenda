@@ -1,2 +1,2 @@
 # Tarefas
-Uma agenda / lista de tarefas
+Uma agenda usando o fullcalendar
