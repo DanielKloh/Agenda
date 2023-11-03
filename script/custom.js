@@ -56,6 +56,18 @@ document.addEventListener("DOMContentLoaded", function () {
           ? info.event.end.toLocaleString()
           : info.event.start.toLocaleString();
 
+      //Enviar editar os dados do evento
+      document.getElementById("editId").value = info.event.id;
+      document.getElementById("editTitle").value = info.event.title;
+      document.getElementById("editStart").value = converterData(
+        info.event.start
+      );
+      document.getElementById("editEnd").value =
+        info.event.end !== null
+          ? converterData(info.event.end)
+          : converterData(info.event.start);
+      document.getElementById("editColor").value = info.event.backgroundColor;
+
       //Visualizar a modal
       visualizarModal.show();
     },
@@ -105,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let formCadEvento = document.getElementById("formCadEvento");
   let msg = document.getElementById("msg");
-  let msgCadEvento = document.getElementById("msgCadEvento")
+  let msgCadEvento = document.getElementById("msgCadEvento");
   let btnCadEvento = document.getElementById("btnCadEvento");
 
   if (formCadEvento) {
@@ -137,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
          ${resposta["msg"]}
        </div>`;
 
-       msgCadEvento.innerHTML = "";
+        msgCadEvento.innerHTML = "";
 
         formCadEvento.reset();
 
@@ -151,19 +163,81 @@ document.addEventListener("DOMContentLoaded", function () {
 
         calendar.addEvent(novoEvento);
         removerMsg();
-      //Da uma olhada nisso
-        document.getElementById("cadastrarModal").setAttribute("style","display: none;");
-      
+        //Da uma olhada nisso
+        document
+          .getElementById("cadastrarModal")
+          .setAttribute("style", "display: none;");
       }
 
       btnCadEvento.value = "Cadastrar";
     });
   }
 
-
-  function removerMsg(){
+  function removerMsg() {
     setTimeout(() => {
-      document.getElementById("msg").innerHTML = ""
+      document.getElementById("msg").innerHTML = "";
     }, 3000);
   }
+
+  const btnViewEditEvent = document.getElementById("btnViewEditEvent");
+
+  if (btnViewEditEvent) {
+    btnViewEditEvent.addEventListener("click", () => {
+      document.getElementById("visualizarEvento").style.display = "none";
+      document.getElementById("visualizarModalLabel").style.display = "none";
+      console.log("ta indo");
+      document.getElementById("editarEvento").style.display = "block";
+      document.getElementById("editarModalLabel").style.display = "block";
+    });
+  }
+
+  const btnViewEvento = document.getElementById("btnViewEvento");
+
+  if (btnViewEvento) {
+    btnViewEvento.addEventListener("click", () => {
+      document.getElementById("visualizarEvento").style.display = "block";
+      document.getElementById("visualizarModalLabel").style.display = "block";
+
+      document.getElementById("editarEvento").style.display = "none";
+      document.getElementById("editarModalLabel").style.display = "none";
+    });
+  }
+
+
+  const formEditEvento = document.getElementById("formEditEvento");
+  const msgEditEvento = document.getElementById("msgEditEvento");
+  const btnEditEvento = document.getElementById("btnEditEvento");
+  
+
+  if(btnEditEvento){
+    btnEditEvento.addEventListener("click",async(e) => {
+
+      e.preventDefault();
+
+      // btnEditEvento.value = "Salvando...";
+
+
+      const dadosForm = new FormData(formEditEvento);
+
+      const dados = await fetch("editarEvento.php",{
+        method:"POST",
+        body:dadosForm
+      });
+
+      const resposta = await dados.json;
+
+      if(!resposta["status"]){
+        msgEditEvento.innerHTML = `<div class="alert alert-danger" role="alert">
+        ${resposta["msg"]}
+      </div>`;
+        
+      }
+
+
+
+      // btnEditEvento.value = "Salvar";
+
+    });
+  }
+
 });

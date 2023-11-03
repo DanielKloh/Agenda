@@ -12,9 +12,9 @@
 
 <body>
 
-<h2>Agenda</h2>
+    <h2>Agenda</h2>
 
-<span id="msg"></span>
+    <span id="msg"></span>
     <div id='calendar' class="container mt-5 mb-5"></div>
 
 
@@ -25,26 +25,76 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="visualizarModalLabel">Detalhes do Evento</h1>
+                    <h1 class="modal-title fs-5" id="editarModalLabel" style="display: none;">Editar o Evento</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <dl class="row">
-                        <dt class="col-sm-3">ID:</dt>
-                        <dd class="col-sm-9" id="visualizarId"></dd>
 
-                        <dt class="col-sm-3">Title:</dt>
-                        <dd class="col-sm-9" id="visualizarTitle"></dd>
+                    <div id="visualizarEvento">
+                        <dl class="row">
+                            <dt class="col-sm-3">ID:</dt>
+                            <dd class="col-sm-9" id="visualizarId"></dd>
 
-                        <dt class="col-sm-3">Start:</dt>
-                        <dd class="col-sm-9" id="visualizarStart"></dd>
+                            <dt class="col-sm-3">Title:</dt>
+                            <dd class="col-sm-9" id="visualizarTitle"></dd>
 
-                        <dt class="col-sm-3">End:</dt>
-                        <dd class="col-sm-9" id="visualizarEnd"></dd>
-                    </dl>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                            <dt class="col-sm-3">Start:</dt>
+                            <dd class="col-sm-9" id="visualizarStart"></dd>
+
+                            <dt class="col-sm-3">End:</dt>
+                            <dd class="col-sm-9" id="visualizarEnd"></dd>
+                        </dl>
+
+                        <button type="button" class="btn btn-warning" id="btnViewEditEvent">Editar</button>
+                    </div>
+
+
+
+                    <div id="editarEvento" style="display: none;">
+
+                        <span id="msgEditEvento"></span>
+
+                        <form method="POST" id="formEditEvento">
+                            <input type="hidden" name="editId" id="editId">
+                            <div class="row mb-3">
+                                <label for="editTitle" class="col-sm-2 col-form-label">Titulo</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="editTitle" class="form-control" id="editTitle">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="editStart" class="col-sm-2 col-form-label">Inicio</label>
+                                <div class="col-sm-10">
+                                    <input type="datetime-local" name="editStart" class="form-control" id="editStart">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="editEnd" class="col-sm-2 col-form-label">Fim</label>
+                                <div class="col-sm-10">
+                                    <input type="datetime-local" name="editEnd" class="form-control" id="editEnd">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="editColor" class="col-sm-2 col-form-label">Cor</label>
+                                <div class="col-sm-10">
+                                    <select name="editColor" id="editColor" class="form-control">
+                                        <option>Selecione</option>
+                                        <option style="color: #8B0000;" value="#8B0000">Vermelho</option>
+                                        <option style="color: #228B22;" value="#228B22">Verde</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button name="btnViewEvento" class="btn btn-primary" type="button"
+                                id="btnViewEvento">Cancelar</button>
+
+                            <button type="submit" name="btnEditEvento" class="btn btn-warning"
+                                id="btneditEvento">Salvar</button>
+
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,7 +103,7 @@
     <!-- Modal Cadastrar -->
 
 
-    <div  class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
+    <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -62,7 +112,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <samp id="msgCadEvento"></samp>
+                    <span id="msgCadEvento"></span>
 
                     <form method="POST" id="formCadEvento">
                         <div class="row mb-3">
@@ -83,7 +133,7 @@
                                 <input type="datetime-local" name="inputEnd" class="form-control" id="inputEnd">
                             </div>
                         </div>
-                    
+
                         <div class="row mb-3">
                             <label for="inputColor" class="col-sm-2 col-form-label">Cor</label>
                             <div class="col-sm-10">
@@ -95,12 +145,13 @@
                             </div>
                         </div>
 
-                        <button type="submit" name="btnCadEvento" class="btn btn-success" id="btnCadEvento">Cadastrar</button>
+                        <button type="submit" name="btnCadEvento" class="btn btn-success"
+                            id="btnCadEvento">Cadastrar</button>
                     </form>
                 </div>
 
+            </div>
         </div>
-    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
